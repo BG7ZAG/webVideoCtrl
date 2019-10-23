@@ -83,7 +83,7 @@
                                
                                 var szDeviceIdentify = that.szIP + "_" + that.szPort;
                                 that.getDevicePort(szDeviceIdentify);
-                                setTimeout(that.startRealPlay(szDeviceIdentify, 1, 1), 500);
+                                setTimeout(that.startRealPlay(szDeviceIdentify, 1, 1), 500); // 这里需要修改成你自己的摄像头 or 硬盘录像机的通道
                             },
                             error: function () {
                                 console.log("login error");
