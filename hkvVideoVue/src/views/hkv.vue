@@ -33,8 +33,7 @@
               <el-col>
                 <el-form-item>
                   <el-button type="primary" @click="onLogin">登录</el-button>
-                  <!--                  <el-button type="primary" @click="onSubmit">立即创建</el-button>-->
-                  <!--                  <el-button type="primary" @click="onLogin">开始预览</el-button>-->
+                  <el-button type="primary" @click="clickStartRealPlay">开始预览</el-button>
                   <!--                  <el-button type="primary" @click="onLogin">停止预览</el-button>-->
                   <!--                  <el-button type="primary" @click="onLogout">退出</el-button>-->
                 </el-form-item>
@@ -110,11 +109,8 @@
           async: false,
           success: function (xmlDoc) {
             console.log('xmlDoc2', xmlDoc);//不能删除
-            // 开始预览
-
-            var szDeviceIdentify = that.hkvInfo.ip + "_" + that.hkvInfo.port;
-            that.getDevicePort(szDeviceIdentify);
-            setTimeout(that.startRealPlay(szDeviceIdentify, 0, 1), 500); // 这里需要修改成你自己的摄像头 or 硬盘录像机的通道
+            //TODO 获取通道信息
+            that.getDevicePort(that.hkvInfo.ip + "_" + that.hkvInfo.port);
           },
           error: function () {
             console.log("login error");
@@ -126,8 +122,12 @@
           console.log('no ip ')
         }
       },
-      onSubmit() {
-        console.log('submit!');
+      clickStartRealPlay() {
+        // 开始预览
+        var that = this;
+        var szDeviceIdentify = that.hkvInfo.ip + "_" + that.hkvInfo.port;
+
+        setTimeout(that.startRealPlay(szDeviceIdentify, 0, 1), 500); // 这里需要修改成你自己的摄像头 or 硬盘录像机的通道
       },
       videoInitPlugin: function () {
         var iRet = WebVideoCtrl.I_CheckPluginInstall();
