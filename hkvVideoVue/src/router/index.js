@@ -8,8 +8,19 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      // name: 'HelloWorld',
+      // component: HelloWorld
+      component: () => import('@/views/hkv'),
     }
   ]
+  // scrollBehavior: () => ({ y: 0 }),
+  // routes: constantRouterMap
 })
+
+export const constantRouterMap = [
+  {
+    path: '/',
+    name: 'HelloWorld',
+    component: HelloWorld
+  }
+]

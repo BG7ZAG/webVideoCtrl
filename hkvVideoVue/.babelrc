@@ -8,7 +8,7 @@
     }],
     "stage-2"
   ],
-  "ignore": ["./src/plugins/webVideoCtrl.js"],
+//  "ignore": ["./src/plugins/webVideoCtrl.js"],
   // "ignore": ["./static/webVideoCtrl.js"],
   "plugins": ["transform-vue-jsx", "transform-runtime"]
 }
