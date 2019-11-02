@@ -22,6 +22,6 @@ npm run dev
 #### 功能预览
 ![海康摄像功能预览](https://img-blog.csdnimg.cn/20191102105329834.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1c2hpNjMxMA==,size_16,color_FFFFFF,t_70)
 
-##### 目前只实现了简单的预览功能，云台功能后续更新。。。
+##### 目前实现了登录，预览，停止预览，退出，获取数字通道，云台控制等功能，其他功能后续更新。。。
 ##### 有疑问可以添加本人微信：18795954756
 #### 喜欢就点个星吧
