@@ -1,7 +1,6 @@
 <template>
 
   <div>
-
     <el-row>
       <el-col :span="12">
         <div id="divPlugin" class="plugin"></div>
@@ -49,7 +48,23 @@
         </div>
       </el-col>
       <el-col :span="12">
-
+        <div class="el-button-group ">
+          <div class="el-button primary" @mousedown="mouseDownPTZControl(5)" @mouseup="mouseUpPTZControl">左上</div>
+          <div class="el-button primary" @mousedown="mouseDownPTZControl(1)" @mouseup="mouseUpPTZControl">向上</div>
+          <div class="el-button primary" @mousedown="mouseDownPTZControl(7)" @mouseup="mouseUpPTZControl" >右上</div>
+        </div>
+        <br/>
+        <div class="el-button-group ">
+          <div class="el-button primary" @mousedown="mouseDownPTZControl(3)" @mouseup="mouseUpPTZControl">向左</div>
+          <div class="el-button primary" @mousedown="mouseDownPTZControl(9)" @mouseup="mouseUpPTZControl">自动</div>
+          <div class="el-button primary" @mousedown="mouseDownPTZControl(4)" @mouseup="mouseUpPTZControl" >向右</div>
+        </div>
+        <br/>
+        <div class="el-button-group ">
+          <div class="el-button primary" @mousedown="mouseDownPTZControl(6)" @mouseup="mouseUpPTZControl">左下</div>
+          <div class="el-button primary" @mousedown="mouseDownPTZControl(2)" @mouseup="mouseUpPTZControl">向下</div>
+          <div class="el-button primary" @mousedown="mouseDownPTZControl(8)" @mouseup="mouseUpPTZControl" >右下</div>
+        </div>
       </el-col>
     </el-row>
 
@@ -242,7 +257,6 @@
             });
           }
         });
-
       },
       getChannelInfo: function () {
         var that = this;
@@ -266,11 +280,10 @@
               console.log("获取数字通道失败");
             }
           }
-        )
-        ;
+        );
       },
       mouseDownPTZControl: function (iPTZIndex) {
-        var oWndInfo = WebVideoCtrl.I_GetWindowStatus(0);
+        var oWndInfo = WebVideoCtrl.I_GetWindowStatus(this.mySelectWnd);
 
         if (oWndInfo !== null) {
           if (iPTZIndex === 9 && this.g_bPTZAuto) {
@@ -281,8 +294,8 @@
 
           WebVideoCtrl.I_PTZControl(iPTZIndex, false, {
             iPTZSpeed: 4,
-            success: function (xmlDoc) {
-              console.log(xmlDoc);
+            mysuccess: function (xmlDoc) {
+              console.log("I_PTZControl", xmlDoc);
               if (iPTZIndex === 9 && this.g_bPTZAuto) {
                 console.log(oWndInfo.szDeviceIdentify + " 停止云台成功！");
               } else {
@@ -297,8 +310,7 @@
             }
           });
         }
-      }
-      ,
+      },
       mouseUpPTZControl: function () {
         var oWndInfo = WebVideoCtrl.I_GetWindowStatus(this.mySelectWnd);
 
@@ -312,6 +324,9 @@
             }
           });
         }
+      },
+      myDown(aa){
+        console.log('ddd',aa);
       }
     }
   }
@@ -325,5 +340,9 @@
 
   .my-tag {
     margin-left: 3px;
+  }
+
+  .my-group-btn {
+    margin-top: 5px;
   }
 </style>
