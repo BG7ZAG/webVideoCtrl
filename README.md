@@ -1,4 +1,4 @@
-# webVideoCtrl
+# webVideoCtrl 海康威视vue + web开发
 
 ### 介绍
 -  CH_WEB3.0控件开发包V1.1.0_Win32.rar   是海康威视官方提供的web开发包, 也适用于64位操作系统
@@ -18,6 +18,9 @@ npm run dev
 
 
 - 同时也可以参考文档：https://blog.csdn.net/yushi6310/article/details/88549363
+
+#### 功能预览
+![海康摄像功能预览](https://img-blog.csdnimg.cn/20191102105329834.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1c2hpNjMxMA==,size_16,color_FFFFFF,t_70)
 
 ##### 目前只实现了简单的预览功能，云台功能后续更新。。。
 ##### 有疑问可以添加本人微信：18795954756
