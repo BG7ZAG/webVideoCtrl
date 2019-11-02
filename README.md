@@ -12,10 +12,6 @@
 - 如果上面的步骤没有问题，可以在本地运行 vue 的 demo代码（hkvVideoVue文件内的工程），运行命令
 - 同时也可以参考文档：https://blog.csdn.net/yushi6310/article/details/88549363
 
-````
-npm install
-npm run dev
-````
 
 #### 实现功能
 - 目前实现了登录，预览，停止预览，退出，获取数字通道，云台控制等功能，其他功能后续更新。。。
