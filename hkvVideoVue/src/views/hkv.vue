@@ -5,14 +5,15 @@
     <el-row>
       <el-col :span="12">
         <div id="divPlugin" class="plugin"></div>
+        <br/>
         <div>
           <el-form :inline="true" :model="hkvInfo" class="demo-form-inline">
             <el-row>
               <el-col>
-                <el-form-item label="IP">
+                <el-form-item label="ip">
                   <el-input v-model="hkvInfo.ip" placeholder="ip"></el-input>
                 </el-form-item>
-                <el-form-item label="PORT">
+                <el-form-item label="port">
                   <el-input v-model="hkvInfo.port" placeholder="port"></el-input>
                 </el-form-item>
               </el-col>
@@ -33,7 +34,7 @@
               <el-col>
                 <el-form-item>
                   <el-button type="primary" :loading="loginLoading" @click="onLogin">登录</el-button>
-                  <el-button type="primary" @click="clickStartRealPlay">开始预览</el-button>
+                  <el-button type="primary" :loading="startPlayLoading" @click="clickStartRealPlay">开始预览</el-button>
                   <el-button type="primary" @click="clickStopRealPlay">停止预览</el-button>
                   <el-button type="primary" @click="onLogout">退出</el-button>
                 </el-form-item>
@@ -73,6 +74,7 @@
         g_bPTZAuto: false,
         iProtocol: 1,
         loginLoading: false,
+        startPlayLoading: false,
         iStreamType: 1,
         bZeroChannel: false,
         iRtspPort: 0
@@ -136,19 +138,22 @@
         }
       },
       clickStartRealPlay() {
+
         // 开始预览
         var that = this;
+        that.startPlayLoading = true;
         var szDeviceIdentify = that.hkvInfo.ip + "_" + that.hkvInfo.port;
 
         var j = that.hkvInfo.channels.length > 4 ? 4 : that.hkvInfo.channels.length;
         for (var i = 0; i < j; i++) {
           setTimeout(that.startRealPlay(szDeviceIdentify, i, that.hkvInfo.channels[i]), 500);
         }
+        that.startPlayLoading = false;
       },
       videoInitPlugin: function () {
         var iRet = WebVideoCtrl.I_CheckPluginInstall();
         if (iRet === -1) {
-          alert("您还未安装过插件，双击开发包目录里的WebComponentsKit.exe安装！");
+          alert('您还未安装过插件，双击开发包目录里的WebComponentsKit.exe安装');
           return;
         }
 
@@ -161,7 +166,6 @@
           bWndFull: true,//是否支持单窗口双击全屏，默I_CheckPluginInstall
           iWndowType: 2,
           cbSelWnd: function (xmlDoc) {
-            // console.log("xmlDoc1", xmlDoc);
             var giWndIndex = parseInt($(xmlDoc).find("SelectWnd").eq(0).text(), 10);
             var szInfo = "当前选择的窗口编号：" + giWndIndex;
 
@@ -183,8 +187,6 @@
       },
       startRealPlay: function (szDeviceIdentify, iWndIndex, iChannelID) {
         var that = this;
-        console.log("startRealPlay: ", szDeviceIdentify, that.iRtspPort, iWndIndex, iChannelID);
-
         WebVideoCtrl.I_StartRealPlay(szDeviceIdentify, {
           iRtspPort: that.iRtspPort,
           iWndIndex: iWndIndex,
