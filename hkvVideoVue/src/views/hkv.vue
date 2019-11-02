@@ -72,7 +72,7 @@
           password: 'admin12345',//海康威视摄像头/硬盘录像机的密码
           channels: [],//海康威视摄像头/硬盘录像机的通道
         },
-        g_iWndIndex: 0,//当前选中的窗口
+        mySelectWnd: 0,//当前选中的窗口
         g_bPTZAuto: false,
         iProtocol: 1,
         loginLoading: false,
@@ -124,6 +124,7 @@
         });
       },
       onLogout() {
+        this.hkvInfo.channels = [];
         var szDeviceIdentify = this.hkvInfo.ip + "_" + this.hkvInfo.port;
         var iRet = WebVideoCtrl.I_Logout(szDeviceIdentify);
         if (0 == iRet) {
@@ -168,9 +169,9 @@
           iWndowType: 2,
           myCbSelWnd: function (xmlStr) { //自己新增的方法
             var jsonObj = that.$x2js.xml2js(xmlStr);
-
             var szInfo = "当前选择的窗口编号：" + jsonObj.RealPlayInfo.SelectWnd;
-            console.log("myCbSelWnd", szInfo);
+            this.mySelectWnd = jsonObj.RealPlayInfo.SelectWnd;
+            console.log(szInfo);
           },
           cbInitPluginComplete: function () {
             WebVideoCtrl.I_InsertOBJECTPlugin("divPlugin");
@@ -248,7 +249,7 @@
         var szDeviceIdentify = this.hkvInfo.ip + "_" + this.hkvInfo.port;
         // debugger
         // 数字通道
-        that.hkvInfo.channels=[];
+        that.hkvInfo.channels = [];
         WebVideoCtrl.I_GetDigitalChannelInfo(szDeviceIdentify, {
             async: false,
             mysuccess: function (xmlStr) {
@@ -299,7 +300,7 @@
       }
       ,
       mouseUpPTZControl: function () {
-        var oWndInfo = WebVideoCtrl.I_GetWindowStatus(this.g_iWndIndex);
+        var oWndInfo = WebVideoCtrl.I_GetWindowStatus(this.mySelectWnd);
 
         if (oWndInfo !== null) {
           WebVideoCtrl.I_PTZControl(1, true, {
