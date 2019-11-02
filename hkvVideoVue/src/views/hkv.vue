@@ -32,10 +32,10 @@
             <el-row>
               <el-col>
                 <el-form-item>
-                  <el-button type="primary" @click="onLogin">登录</el-button>
+                  <el-button type="primary" :loading="loginLoading" @click="onLogin">登录</el-button>
                   <el-button type="primary" @click="clickStartRealPlay">开始预览</el-button>
-                  <!--                  <el-button type="primary" @click="onLogin">停止预览</el-button>-->
-                  <!--                  <el-button type="primary" @click="onLogout">退出</el-button>-->
+                  <el-button type="primary" @click="clickStopRealPlay">停止预览</el-button>
+                  <el-button type="primary" @click="onLogout">退出</el-button>
                 </el-form-item>
 
               </el-col>
@@ -64,16 +64,15 @@
       return {
         hkvInfo: {
           ip: '1.1.1.1',//海康威视摄像头/硬盘录像机的ip地址
-          port: '80',//海康威视摄像头/硬盘录像机的端口
+          port: '81',//海康威视摄像头/硬盘录像机的端口
           username: 'admin',//海康威视摄像头/硬盘录像机的用户名
-          password: 'admin12345'//海康威视摄像头/硬盘录像机的密码
+          password: 'admin12345',//海康威视摄像头/硬盘录像机的密码
+          channels: [1, 2],//海康威视摄像头/硬盘录像机的通道
         },
         g_iWndIndex: 0,//当前选中的窗口
         g_bPTZAuto: false,
-        iWidth: 500,
-        iHeight: 300,
         iProtocol: 1,
-
+        loginLoading: false,
         iStreamType: 1,
         bZeroChannel: false,
         iRtspPort: 0
@@ -82,8 +81,7 @@
     created: function () {
     },
     mounted: function () {
-
-      this.videoInitPlugin();
+      this.videoInitPlugin(); // 初始化video界面
     },
 
     destroyed: function () {
@@ -99,21 +97,30 @@
     },
     methods: {
       onLogin() {
-        if (!this.hkvInfo.ip) {
-          console.log('no ip ')
-        }
+        this.loginLoading = true;
         var that = this;
         // 登录设备
-
         WebVideoCtrl.I_Login(that.hkvInfo.ip, that.iProtocol, that.hkvInfo.port, that.hkvInfo.username, that.hkvInfo.password, {
           async: false,
           success: function (xmlDoc) {
-            console.log('xmlDoc2', xmlDoc);//不能删除
+            // console.log('xmlDoc2', xmlDoc);//不能删除
             //TODO 获取通道信息
             that.getDevicePort(that.hkvInfo.ip + "_" + that.hkvInfo.port);
+            that.loginLoading = false;
+
+            that.$message({
+              showClose: true,
+              message: '登录成功',
+              type: 'success'
+            });
           },
           error: function () {
-            console.log("login error");
+            that.loginLoading = false;
+            that.$message({
+              showClose: true,
+              message: '登录失败',
+              type: 'error'
+            });
           }
         });
       },
@@ -127,7 +134,10 @@
         var that = this;
         var szDeviceIdentify = that.hkvInfo.ip + "_" + that.hkvInfo.port;
 
-        setTimeout(that.startRealPlay(szDeviceIdentify, 0, 1), 500); // 这里需要修改成你自己的摄像头 or 硬盘录像机的通道
+        var j = that.hkvInfo.channels.length > 4 ? 4 : that.hkvInfo.channels.length;
+        for (var i = 0; i < j; i++) {
+          setTimeout(that.startRealPlay(szDeviceIdentify, i, that.hkvInfo.channels[i]), 500);
+        }
       },
       videoInitPlugin: function () {
         var iRet = WebVideoCtrl.I_CheckPluginInstall();
@@ -145,7 +155,7 @@
           bWndFull: true,//是否支持单窗口双击全屏，默I_CheckPluginInstall
           iWndowType: 2,
           cbSelWnd: function (xmlDoc) {
-            console.log("xmlDoc1", xmlDoc);
+            // console.log("xmlDoc1", xmlDoc);
             var giWndIndex = parseInt($(xmlDoc).find("SelectWnd").eq(0).text(), 10);
             var szInfo = "当前选择的窗口编号：" + giWndIndex;
 
@@ -174,7 +184,7 @@
           iWndIndex: iWndIndex,
           iStreamType: 1,
           iChannelID: iChannelID,
-          bZeroChannel: false,
+          bZeroChannel: that.bZeroChannel,
           success: function () {
             console.log("开始预览成功 ");
           },
@@ -188,7 +198,9 @@
           }
         });
       },
+      clickStopRealPlay: function () {
 
+      },
 
       mouseDownPTZControl: function (iPTZIndex) {
         var oWndInfo = WebVideoCtrl.I_GetWindowStatus(0);
