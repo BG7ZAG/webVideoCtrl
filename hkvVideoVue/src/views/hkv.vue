@@ -85,20 +85,14 @@
     },
 
     destroyed: function () {
-      // debugger
-      WebVideoCtrl.I_Stop({iWndIndex: 0});
-      var iRet = WebVideoCtrl.I_Logout(this.hkvInfo.ip);
-
-      if (iRet !== 0) {
-        console.log("WebVideoCtrl I_Logout failed");
-      } else {
-        console.log("WebVideoCtrl I_Logout success");
-      }
+      this.clickStopRealPlay();
+      this.onLogout();
     },
     methods: {
       onLogin() {
-        this.loginLoading = true;
         var that = this;
+        that.loginLoading = true;
+
         // 登录设备
         WebVideoCtrl.I_Login(that.hkvInfo.ip, that.iProtocol, that.hkvInfo.port, that.hkvInfo.username, that.hkvInfo.password, {
           async: false,
@@ -125,8 +119,20 @@
         });
       },
       onLogout() {
-        if (!hkvInfo.ip) {
-          console.log('no ip ')
+        var szDeviceIdentify = this.hkvInfo.ip + "_" + this.hkvInfo.port;
+        var iRet = WebVideoCtrl.I_Logout(szDeviceIdentify);
+        if (0 == iRet) {
+          this.$message({
+            showClose: true,
+            message: '退出成功',
+            type: 'success'
+          });
+        } else {
+          this.$message({
+            showClose: true,
+            message: '退出失败',
+            type: 'error'
+          });
         }
       },
       clickStartRealPlay() {
@@ -186,10 +192,19 @@
           iChannelID: iChannelID,
           bZeroChannel: that.bZeroChannel,
           success: function () {
-            console.log("开始预览成功 ");
+            that.$notify({
+              title: '成功',
+              message: '开始预览通道' + iChannelID + '成功',
+              type: 'success'
+            });
           },
           error: function (status, xmlDoc2) {
             console.log(xmlDoc2)//不能删除
+            that.$notify({
+              title: '失败',
+              message: '开始预览通道' + iChannelID + '失败',
+              type: 'error'
+            });
             if (status === 403) {
               console.log("szInfo 设备不支持Websocket取流！");
             } else {
@@ -199,9 +214,32 @@
         });
       },
       clickStopRealPlay: function () {
+        var j = this.hkvInfo.channels.length > 4 ? 4 : this.hkvInfo.channels.length;
+        for (var i = 0; i < j; i++) {
+          setTimeout(this.stopRealPlay(i), 1000);
+        }
+      },
+      stopRealPlay: function (iWndIndex) {
+        var that = this;
+        WebVideoCtrl.I_Stop({
+          iWndIndex: iWndIndex,
+          success: function () {
+            that.$notify({
+              title: '成功',
+              message: '停止预览窗口' + iWndIndex + '成功',
+              type: 'success'
+            });
+          },
+          error: function () {
+            that.$notify({
+              title: '失败',
+              message: '停止预览窗口' + iWndIndex + '失败',
+              type: 'error'
+            });
+          }
+        });
 
       },
-
       mouseDownPTZControl: function (iPTZIndex) {
         var oWndInfo = WebVideoCtrl.I_GetWindowStatus(0);
 
