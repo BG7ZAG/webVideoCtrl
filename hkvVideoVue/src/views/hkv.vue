@@ -42,8 +42,10 @@
               </el-col>
             </el-row>
           </el-form>
-
-
+        </div>
+        <div>
+          <label>数字通道列表: </label>
+          <el-tag type="success" class="my-tag" v-for="(item,index) in hkvInfo.channels" :key="index">{{item}}</el-tag>
         </div>
       </el-col>
       <el-col :span="12">
@@ -68,7 +70,7 @@
           port: '81',//海康威视摄像头/硬盘录像机的端口
           username: 'admin',//海康威视摄像头/硬盘录像机的用户名
           password: 'admin12345',//海康威视摄像头/硬盘录像机的密码
-          channels: [1, 2],//海康威视摄像头/硬盘录像机的通道
+          channels: [],//海康威视摄像头/硬盘录像机的通道
         },
         g_iWndIndex: 0,//当前选中的窗口
         g_bPTZAuto: false,
@@ -101,6 +103,7 @@
           success: function (xmlDoc) {
             // console.log('xmlDoc2', xmlDoc);//不能删除
             //TODO 获取通道信息
+            that.getChannelInfo();
             that.getDevicePort(that.hkvInfo.ip + "_" + that.hkvInfo.port);
             that.loginLoading = false;
 
@@ -138,7 +141,6 @@
         }
       },
       clickStartRealPlay() {
-
         // 开始预览
         var that = this;
         that.startPlayLoading = true;
@@ -156,7 +158,6 @@
           alert('您还未安装过插件，双击开发包目录里的WebComponentsKit.exe安装');
           return;
         }
-
         this.initPlugin()
       },
       initPlugin: function () {
@@ -165,11 +166,11 @@
         WebVideoCtrl.I_InitPlugin(500, 300, {
           bWndFull: true,//是否支持单窗口双击全屏，默I_CheckPluginInstall
           iWndowType: 2,
-          cbSelWnd: function (xmlDoc) {
-            var giWndIndex = parseInt($(xmlDoc).find("SelectWnd").eq(0).text(), 10);
-            var szInfo = "当前选择的窗口编号：" + giWndIndex;
+          myCbSelWnd: function (xmlStr) { //自己新增的方法
+            var jsonObj = that.$x2js.xml2js(xmlStr);
 
-            console.log("szInfo", szInfo);
+            var szInfo = "当前选择的窗口编号：" + jsonObj.RealPlayInfo.SelectWnd;
+            console.log("myCbSelWnd", szInfo);
           },
           cbInitPluginComplete: function () {
             WebVideoCtrl.I_InsertOBJECTPlugin("divPlugin");
@@ -242,6 +243,31 @@
         });
 
       },
+      getChannelInfo: function () {
+        var that = this;
+        var szDeviceIdentify = this.hkvInfo.ip + "_" + this.hkvInfo.port;
+        // debugger
+        // 数字通道
+        that.hkvInfo.channels=[];
+        WebVideoCtrl.I_GetDigitalChannelInfo(szDeviceIdentify, {
+            async: false,
+            mysuccess: function (xmlStr) {
+              console.log('mysuccess getChannelInfo: ', xmlStr)
+              var jsonObj = that.$x2js.xml2js(xmlStr)
+              var list = jsonObj.InputProxyChannelStatusList.InputProxyChannelStatus;
+              for (var x = 0; x < list.length; x++) {
+                that.hkvInfo.channels.push(list[x].id);
+              }
+            },
+            success: function (xmlDoc) {
+            },
+            error: function (status, xmlDoc) {
+              console.log("获取数字通道失败");
+            }
+          }
+        )
+        ;
+      },
       mouseDownPTZControl: function (iPTZIndex) {
         var oWndInfo = WebVideoCtrl.I_GetWindowStatus(0);
 
@@ -270,7 +296,8 @@
             }
           });
         }
-      },
+      }
+      ,
       mouseUpPTZControl: function () {
         var oWndInfo = WebVideoCtrl.I_GetWindowStatus(this.g_iWndIndex);
 
@@ -293,5 +320,9 @@
   .plugin {
     width: 500px;
     height: 300px;
+  }
+
+  .my-tag {
+    margin-left: 3px;
   }
 </style>

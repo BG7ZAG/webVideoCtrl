@@ -23,6 +23,7 @@ function(e) {
                 bDebugMode: !1,
                 bNoPlugin: !0,
                 cbSelWnd: null,
+              myCbSelWnd: null,
                 cbDoubleClickWnd: null,
                 cbEvent: null,
                 cbRemoteConfig: null,
@@ -60,7 +61,7 @@ function(e) {
             H = "IPZoom",
             k = "<?xml version='1.0' encoding='utf-8'?><FileVersion><Platform name='win32'><npWebVideoKitPlugin.dll>3,0,6,2</npWebVideoKitPlugin.dll><WebVideoKitActiveX.ocx>3,0,6,2</WebVideoKitActiveX.ocx><PlayCtrl.dll>7,3,3,61</PlayCtrl.dll><StreamTransClient.dll>1,1,3,6</StreamTransClient.dll><SystemTransform.dll>2,5,2,8</SystemTransform.dll><NetStream.dll>1,0,5,59</NetStream.dll></Platform></FileVersion>";
             GetSelectWndInfo = function(e) {
-                console.log("GetSelectWndInfo", e);
+                // console.log("GetSelectWndInfo", e);
                 if (re()) {
                     u = e;
                     var t = [];
@@ -70,7 +71,7 @@ function(e) {
                     a.cbSelWnd && a.cbSelWnd(f.loadXML(t.join("")))
                 } else {
                     var r = f.loadXML2(e);
-                    console.log("37", r);
+                    // console.log("37", r);
                     if (n.$XML(r).find("SelectWnd", !0).length > 0) {
                         u = parseInt(n.$XML(r).find("SelectWnd").eq(0).text(), 10),
                         null === C && U();
@@ -78,7 +79,8 @@ function(e) {
                         t.push("<RealPlayInfo>"),
                         t.push("<SelectWnd>" + u + "</SelectWnd>"),
                         t.push("</RealPlayInfo>"),
-                        a.cbSelWnd && a.cbSelWnd(f.loadXML2(t.join("")))
+                        a.cbSelWnd && a.cbSelWnd(f.loadXML2(t.join(""))),
+                        a.myCbSelWnd&& a.myCbSelWnd(t.join(""))
                     } else if (n.$XML(r).find("DoubleClickWnd", !0).length > 0) {
                         var s = parseInt(n.$XML(r).find("DoubleClickWnd").eq(0).text(), 10);
                         l = "0" === n.$XML(r).find("IsFullScreen").eq(0).text(),
@@ -147,7 +149,7 @@ function(e) {
                 if (!re() && null !== c) {
                     var e = c.HWP_GetLocalConfig();
                     C = f.loadXML2(e);
-                    console.log("92 C", C, e);
+                    // console.log("92 C", C, e);
                 }
             },
             V = function(e) {
@@ -284,11 +286,11 @@ function(e) {
                         })
                     },
                     error: function() {
-                        
+
                         e.oProtocolInc.getNetworkInterface(e, {
                             async: !1,
                             success: function(e) {
-                                
+
                                 for (var r = n.$XML(e).find("NetworkInterface", !0), s = 0, o = r.length; o > s; s++) {
                                     t.push({
                                         ipv4: n.$XML(e).find("ipAddress").eq(0).text(),
@@ -322,7 +324,7 @@ function(e) {
                 e.oStreamCapa.bObtained || e.oProtocolInc instanceof le && e.oProtocolInc.getSDKCapa(e, {
                     async: !1,
                     success: function(t) {
-                      
+
                         e.oStreamCapa.bObtained = !0,
                         e.oStreamCapa.bSupportShttpPlay = "true" === n.$XML(t).find("isSupportHttpPlay").eq(0).text(),
                         e.oStreamCapa.bSupportShttpPlayback = "true" === n.$XML(t).find("isSupportHttpPlayback").eq(0).text(),
@@ -371,7 +373,7 @@ function(e) {
             },
             oe = function() {
                 var e = "<ResponseStatus>";
-                console.log("224");
+                // console.log("224");
                 return e += "<requestURL></requestURL>",
                 e += "<statusCode>4</statusCode>",
                 e += "<statusString>Invalid Operation</statusString>",
@@ -455,7 +457,7 @@ function(e) {
                 if (re()) return e;
                 var t = c.HWP_GetLocalConfig(),
                 r = [];
-                
+
                 return C = f.loadXML(t),
                 r.push("<LocalConfigInfo>"),
                 r.push("<ProtocolType>" + n.$XML(C).find("ProtocolType").eq(0).text() + "</ProtocolType>"),
@@ -475,10 +477,10 @@ function(e) {
             },
             this.I_SetLocalCfg = function(e) {
                 if (re()) return - 1;
-                console.log("227");
+                // console.log("227");
                 var t = f.loadXML(e),
                 r = !1;
-                console.log("285 t", t, e);
+                // console.log("285 t", t, e);
                 return n.$XML(C).find("ProtocolType").eq(0).text(n.$XML(t).find("ProtocolType").eq(0).text()),
                 n.$XML(C).find("PackgeSize").eq(0).text(n.$XML(t).find("PackgeSize").eq(0).text()),
                 n.$XML(C).find("PlayWndType").eq(0).text(n.$XML(t).find("PlayWndType").eq(0).text()),
@@ -789,8 +791,7 @@ function(e) {
                         t.error && t.error()
                     });
                     else {
-
-                        console.log(h, P);
+                        // console.log(h, P);
                         var m = h.oProtocolInc.startRealPlay(h, P);
                         if (0 == m) {
                             r = this.findWndIndexByIndex(P.iWndIndex);
@@ -1486,7 +1487,7 @@ function(e) {
             this.I_SetSnapPolygonInfo = function(e, t) {
                 if (re()) return - 1;
                 var r, s, o, i, a, u, l, d, p, P, h, I, m, C = c.HWP_GetSnapPolygonInfo(e);
-                console.log("921", r);
+                // console.log("921", r);
                 r = f.loadXML(C),
                 s = n.$XML(r).find("SnapPolygon", !0);
 
@@ -1495,7 +1496,7 @@ function(e) {
                 for (o = 0, i = s.length; i > o; o++) a = s[o],
                 v.push(n.$XML(a).find("id").eq(0).text());
                 var y = v.join(",");
-                console.log("927");
+                // console.log("927");
                 if (y = "," + y + ",", r = f.loadXML(t), s = n.$XML(r).find("SnapPolygon", !0), S + s.length > 32) return - 3;
                 for (o = 0, i = s.length; i > o; o++) {
                     if (a = s[o], u = n.$XML(a).find("id").eq(0).text(), !f.isInt(u)) return - 2;
@@ -1535,7 +1536,7 @@ function(e) {
                 return re() ? -1 : c.HWP_SetPackageType(e)
             },
             this.I_GetDevicePort = function(e) {
-                
+
                 var t = this.findDeviceIndexByIP(e),
                 n = null;
                 if ( - 1 != t) {
@@ -1686,7 +1687,7 @@ function(e) {
             ue.prototype.httpDataAnalyse = function(e, t) {
                 var n = "",
                 r = 0;
-              
+
                 "" == t || B(t) ? e.funErrorCallback() : (r = parseInt(t.substring(0, 3)), n = t.substring(3, t.length), isNaN(r) ? e.funErrorCallback() : y == r ? e.funSuccessCallback(f.loadXML2(n)) : e.funErrorCallback(r, f.loadXML2(n)))
             };
             var le = function() {};
@@ -1852,7 +1853,8 @@ function(e) {
                         r.push("<encoderReleasedDate>" + n.$XML(e).find("encoderReleasedDate").eq(0).text() + "</encoderReleasedDate>"),
                         r.push("</DeviceInfo>"),
                         e = f.loadXML(r.join("")),
-                        t.success && t.success(e)
+                        t.success && t.success(e),
+                        t.mysuccess &&t.mysuccess(r.join(""))
                     },
                     error: function(e, n) {
                         t.error && t.error(e, n)
@@ -1885,10 +1887,11 @@ function(e) {
                             r.push("<videoFormat>" + n.$XML(a).find("videoFormat").eq(0).text() + "</videoFormat>"),
                             r.push("</VideoInputChannel>")
                         }
-                        console.log("1171", r);
+                        // console.log("1171", r);
                         r.push("</VideoInputChannelList>"),
                         e = f.loadXML(r.join("")),
-                        t.success && t.success(e)
+                        t.success && t.success(e),
+                        t.mysuccess &&t.mysuccess(r.join(""))
                     },
                     error: function(e, n) {
                         t.error && t.error(e, n)
@@ -1919,10 +1922,12 @@ function(e) {
                             r.push("<name>" + f.escape(n.$XML(a).find("name").eq(0).text()) + "</name>"),
                             r.push("</InputProxyChannel>")
                         }
-                        console.log("1188", r);
+                        // console.log("1188", r);
+
                         r.push("</InputProxyChannelList>"),
-                        e = f.loadXML(r.join("")),
-                        t.success && t.success(e)
+                        e = f.loadXML2(r.join("")),
+                        t.success && t.success(e),
+                        t.mysuccess &&t.mysuccess(r.join(""))
                     },
                     error: function(e, n) {
                         t.error && t.error(e, n)
@@ -1981,10 +1986,12 @@ function(e) {
                                 r.push("</sourceInputPortDescriptor>"),
                                 r.push("</InputProxyChannelStatus>")
                             }
-                            console.log("1217", r);
+                            // console.log("1217", r);
                             r.push("</InputProxyChannelStatusList>"),
-                            e = f.loadXML(r.join("")),
-                            t.success && t.success(e)
+                            e = f.loadXML2(r.join("")),
+                            t.success && t.success(e),
+                            t.mysuccess &&t.mysuccess(r.join(""))
+                            // t.success && t.success(r.join(""))
                         },
                         error: function(e, n) {
                             t.error && t.error(e, n)
@@ -2106,7 +2113,7 @@ function(e) {
                 r.submitRequest()
             },
             le.prototype.getNetworkInterface = function(e, t) {
-                
+
                 var n = E(this.CGI.getNetworkInterface, e.szHttpProtocol, e.szIP, e.iCGIPort),
                 r = new ue,
                 s = {
@@ -2618,7 +2625,7 @@ function(e) {
                 P.submitRequest()
             },
             le.prototype.getSDKCapa = function(e, t) {
-              
+
                 var n = E(this.CGI.SDKCapabilities, e.szHttpProtocol, e.szIP, e.iCGIPort),
                 r = new ue,
                 s = {
@@ -2915,7 +2922,9 @@ function(e) {
                         r.push("<encoderReleasedDate>" + n.$XML(e).find("logicReleasedDate").eq(0).text() + "</encoderReleasedDate>"),
                         r.push("</DeviceInfo>"),
                         e = f.loadXML(r.join("")),
-                        t.success && t.success(e)
+                        t.success && t.success(e),
+                        t.mysuccess &&t.mysuccess(r.join(""))
+                        // console.log("2922",r.join(""))
                     },
                     error: function(e, n) {
                         t.error && t.error(e, n)
@@ -3007,7 +3016,8 @@ function(e) {
 
                         r.push("</InputProxyChannelList>"),
                         e = f.loadXML(r.join("")),
-                        t.success && t.success(e)
+                        t.success && t.success(e),
+                        t.mysuccess &&t.mysuccess(r.join(""))
                     },
                     error: function(e, n) {
                         t.error && t.error(e, n)
@@ -3066,10 +3076,11 @@ function(e) {
                                 r.push("</sourceInputPortDescriptor>"),
                                 r.push("</InputProxyChannelStatus>")
                             }
-                            console.log("1746");
+                            // console.log("1746");
                             r.push("</InputProxyChannelStatusList>"),
                             e = f.loadXML(r.join("")),
-                            t.success && t.success(e)
+                            t.success && t.success(e),
+                            t.mysuccess &&t.mysuccess(r.join(""))
                         },
                         error: function(e, n) {
                             t.error && t.error(e, n)
@@ -3225,7 +3236,7 @@ function(e) {
                                     s.push("<portNo>" + o + "</portNo>"),
                                     s.push("</AdminAccessProtocol>"),
                                     s.push("</AdminAccessProtocolList>");
-                                    console.log("1819");
+                                    // console.log("1819");
                                     var i = f.loadXML(s.join(""));
                                     t.success && t.success(i)
                                 } else I.getStreamDynChannels(e, {
@@ -3240,7 +3251,7 @@ function(e) {
                                             s.push("<portNo>" + r + "</portNo>"),
                                             s.push("</AdminAccessProtocol>"),
                                             s.push("</AdminAccessProtocolList>");
-                                            console.log("1827");
+                                            // console.log("1827");
                                             var o = f.loadXML(s.join(""));
                                             t.success && t.success(o)
                                         }
@@ -3271,7 +3282,7 @@ function(e) {
                                     r.push("</AdminAccessProtocol>"),
                                     r.push("</AdminAccessProtocolList>");
                                     var i = f.loadXML(r.join(""));
-                                    console.log("1847");
+                                    // console.log("1847");
                                     t.success && t.success(i)
                                 } else I.getStreamDynChannels(e, {
                                     async: !1,
@@ -3286,7 +3297,7 @@ function(e) {
                                             r.push("</AdminAccessProtocol>"),
                                             r.push("</AdminAccessProtocolList>");
                                             var o = f.loadXML(r.join(""));
-                                            console.log("1855");
+                                            // console.log("1855");
                                             t.success && t.success(o)
                                         }
                                     },
@@ -3628,7 +3639,7 @@ function(e) {
                             t.push("<metadataDescriptor>" + n.$XML(a).find("metadataDescriptor").eq(0).text().split("/")[1] + "</metadataDescriptor>"),
                             t.push("</searchMatchItem>")
                         }
-                        console.log("2006");
+                        // console.log("2006");
                         t.push("</matchList>"),
                         t.push("</CMSearchResult>"),
                         e = f.loadXML(t.join("")),
