@@ -281,6 +281,8 @@
             }
           }
         );
+		// TODO 模拟通道
+		// TODO 零通道
       },
       mouseDownPTZControl: function (iPTZIndex) {
         var oWndInfo = WebVideoCtrl.I_GetWindowStatus(this.mySelectWnd);
