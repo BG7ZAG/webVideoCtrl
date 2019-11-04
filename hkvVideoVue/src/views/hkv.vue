@@ -51,19 +51,19 @@
         <div class="el-button-group ">
           <div class="el-button primary" @mousedown="mouseDownPTZControl(5)" @mouseup="mouseUpPTZControl">左上</div>
           <div class="el-button primary" @mousedown="mouseDownPTZControl(1)" @mouseup="mouseUpPTZControl">向上</div>
-          <div class="el-button primary" @mousedown="mouseDownPTZControl(7)" @mouseup="mouseUpPTZControl" >右上</div>
+          <div class="el-button primary" @mousedown="mouseDownPTZControl(7)" @mouseup="mouseUpPTZControl">右上</div>
         </div>
         <br/>
         <div class="el-button-group ">
           <div class="el-button primary" @mousedown="mouseDownPTZControl(3)" @mouseup="mouseUpPTZControl">向左</div>
           <div class="el-button primary" @mousedown="mouseDownPTZControl(9)" @mouseup="mouseUpPTZControl">自动</div>
-          <div class="el-button primary" @mousedown="mouseDownPTZControl(4)" @mouseup="mouseUpPTZControl" >向右</div>
+          <div class="el-button primary" @mousedown="mouseDownPTZControl(4)" @mouseup="mouseUpPTZControl">向右</div>
         </div>
         <br/>
         <div class="el-button-group ">
           <div class="el-button primary" @mousedown="mouseDownPTZControl(6)" @mouseup="mouseUpPTZControl">左下</div>
           <div class="el-button primary" @mousedown="mouseDownPTZControl(2)" @mouseup="mouseUpPTZControl">向下</div>
-          <div class="el-button primary" @mousedown="mouseDownPTZControl(8)" @mouseup="mouseUpPTZControl" >右下</div>
+          <div class="el-button primary" @mousedown="mouseDownPTZControl(8)" @mouseup="mouseUpPTZControl">右下</div>
         </div>
       </el-col>
     </el-row>
@@ -258,7 +258,7 @@
           }
         });
       },
-	  // 获取通道，实际上可以根据自己的项目，获取数字通道，模拟通道，零通道中的一个或多个，不用全部获取（提高效率）
+      // 获取通道，实际上可以根据自己的项目，获取数字通道，模拟通道，零通道中的一个或多个，不用全部获取（提高效率）
       getChannelInfo: function () {
         var that = this;
         var szDeviceIdentify = this.hkvInfo.ip + "_" + this.hkvInfo.port;
@@ -268,7 +268,7 @@
         WebVideoCtrl.I_GetDigitalChannelInfo(szDeviceIdentify, {
             async: false,
             mysuccess: function (xmlStr) {
-              console.log('mysuccess getChannelInfo: ', xmlStr)
+              console.log('mysuccess I_GetDigitalChannelInfo: ', xmlStr)
               var jsonObj = that.$x2js.xml2js(xmlStr)
               var list = jsonObj.InputProxyChannelStatusList.InputProxyChannelStatus;
               for (var x = 0; x < list.length; x++) {
@@ -282,8 +282,26 @@
             }
           }
         );
-		// TODO 模拟通道 
-		// TODO 零通道
+        // TODO 模拟通道
+        // 模拟通道
+        WebVideoCtrl.I_GetAnalogChannelInfo(szDeviceIdentify, {
+          async: false,
+          mysuccess: function (xmlStr) {
+            var jsonObj = that.$x2js.xml2js(xmlStr);
+            console.log("模拟通道mysuccess",xmlStr);
+            var list = jsonObj.VideoInputChannelList.VideoInputChannel;
+            for (var x = 0; x < list.length; x++) {
+              that.hkvInfo.channels.push(list[x].id);
+            }
+          },
+          success: function (xmlStr) {
+            console.log("模拟通道success",xmlStr);
+          },
+          error: function (status, xmlDoc) {
+            console.log("模拟通道error",xmlDoc);
+          }
+        });
+        // TODO 零通道
       },
       mouseDownPTZControl: function (iPTZIndex) {
         var oWndInfo = WebVideoCtrl.I_GetWindowStatus(this.mySelectWnd);
@@ -328,8 +346,8 @@
           });
         }
       },
-      myDown(aa){
-        console.log('ddd',aa);
+      myDown(aa) {
+        console.log('ddd', aa);
       }
     }
   }
