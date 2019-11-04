@@ -258,6 +258,7 @@
           }
         });
       },
+	  // 获取通道，实际上可以根据自己的项目，获取数字通道，模拟通道，零通道中的一个或多个，不用全部获取（提高效率）
       getChannelInfo: function () {
         var that = this;
         var szDeviceIdentify = this.hkvInfo.ip + "_" + this.hkvInfo.port;
@@ -281,7 +282,7 @@
             }
           }
         );
-		// TODO 模拟通道
+		// TODO 模拟通道 
 		// TODO 零通道
       },
       mouseDownPTZControl: function (iPTZIndex) {
