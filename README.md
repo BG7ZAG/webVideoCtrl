@@ -8,7 +8,7 @@
 ### 使用方法
 - 先解压CH_WEB3.0控件开发包V1.1.0_Win32.rar
 - 安装压缩包中的  **CH_WEB3.0控件开发包V1.1.0_Win32/demo/codebase/WebComponentsKit.exe** 插件
-- 使用 <font color=#DC143C size=5>IE11</font> 浏览器打开**CH_WEB3.0控件开发包V1.1.0_Win32/demo/index.html**， 输入ip地址，端口，用户名，密码，查看是否可与登录预览
+- 使用 <font color=#DC143C size=6>IE11</font> 浏览器打开**CH_WEB3.0控件开发包V1.1.0_Win32/demo/index.html**， 输入ip地址，端口，用户名，密码，查看是否可与登录预览
 - 如果上面的步骤没有问题，可以在本地运行 vue 的 demo代码（hkvVideoVue文件内的工程），运行命令
 - 同时也可以参考文档：https://blog.csdn.net/yushi6310/article/details/88549363
 
