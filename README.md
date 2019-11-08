@@ -16,11 +16,20 @@
 #### 实现功能
 - 目前实现了登录，预览，停止预览，退出，获取数字通道，云台控制等功能，其他功能后续更新。。。
 
-#### 效果预览
-![海康摄像功能预览](https://img-blog.csdnimg.cn/20191102105329834.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1c2hpNjMxMA==,size_16,color_FFFFFF,t_70)
+
 
 ### 下一步开发计划
 - 双击显示全屏时，控制按钮浮在视频最上面
+
+### 存在问题
+- 海康的demo插件的浏览器兼容性很差（这点很蛋疼）
+- 运行时，浏览器消耗资源比较多，有时会卡顿
+- 云台控制点击反应比较慢
+
+#### 效果预览
+![海康摄像功能预览](https://img-blog.csdnimg.cn/20191102105329834.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1c2hpNjMxMA==,size_16,color_FFFFFF,t_70)
+
+
 
 ##### 有疑问可以添加本人微信：18795954756，加微信就点个星吧
 
