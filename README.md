@@ -2,7 +2,7 @@
 
 ### 介绍
 -  **CH_WEB3.0控件开发包V1.1.0_Win32.rar**   是海康威视官方提供的web开发包, 也适用于64位操作系统
--  **hkvVideoVue** 是自己实现的vue代码，使用vue + elementUI实现
+-  **hkvVideoVue** 是自己实现的vue代码，使用vue + elementUI实现，里面引用的海康的webVideoCtrl.js文件，我修改了部分源码
 
 
 ### 使用方法
@@ -19,5 +19,9 @@
 #### 效果预览
 ![海康摄像功能预览](https://img-blog.csdnimg.cn/20191102105329834.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1c2hpNjMxMA==,size_16,color_FFFFFF,t_70)
 
+### 下一步开发计划
+- 双击显示全屏时，控制按钮浮在视频最上面
 
 ##### 有疑问可以添加本人微信：18795954756，加微信就点个星吧
+
+
