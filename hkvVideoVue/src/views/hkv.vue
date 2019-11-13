@@ -288,10 +288,12 @@
           mysuccess: function (xmlStr) {
             var jsonObj = that.$x2js.xml2js(xmlStr);
             console.log("模拟通道mysuccess",xmlStr);
-            var list = jsonObj.VideoInputChannelList.VideoInputChannel;
-            for (var x = 0; x < list.length; x++) {
-              that.hkvInfo.channels.push(list[x].id);
-            }
+            // var list = jsonObj.VideoInputChannelList;
+            // for (var x = 0; x < list.length; x++) {
+            //   that.hkvInfo.channels.push(list[x].VideoInputChannel.id);
+            // }
+            var id = jsonObj.VideoInputChannelList.VideoInputChannel.id;
+            that.hkvInfo.channels.push(id);
           },
           success: function (xmlStr) {
             console.log("模拟通道success",xmlStr);

@@ -30,11 +30,14 @@ npm run dev
 - 运行时，浏览器消耗资源比较多，有时会卡顿
 - 云台控制点击反应比较慢，有延时
 
-#### 效果预览
+### 效果预览
 ![海康摄像功能预览](https://img-blog.csdnimg.cn/20191102105329834.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1c2hpNjMxMA==,size_16,color_FFFFFF,t_70)
 
 
 
 ##### 有疑问请留言，也可以添加本人微信：18795954756，加微信就点个星吧
+
+
+
 
 
