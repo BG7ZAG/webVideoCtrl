@@ -80,7 +80,7 @@
     data() {
       return {
         hkvInfo: {
-          ip: '1.1.1.1',//海康威视摄像头/硬盘录像机的ip地址
+          ip: '218.64.163.235',//海康威视摄像头/硬盘录像机的ip地址
           port: '81',//海康威视摄像头/硬盘录像机的端口
           username: 'admin',//海康威视摄像头/硬盘录像机的用户名
           password: 'admin12345',//海康威视摄像头/硬盘录像机的密码
@@ -183,8 +183,8 @@
           iWndowType: 2,
           myCbSelWnd: function (xmlStr) { //自己新增的方法
             var jsonObj = that.$x2js.xml2js(xmlStr);
-            var szInfo = "当前选择的窗口编号：" + jsonObj.RealPlayInfo.SelectWnd;
-            this.mySelectWnd = jsonObj.RealPlayInfo.SelectWnd;
+            that.mySelectWnd = jsonObj.RealPlayInfo.SelectWnd;
+            var szInfo = "当前选择的窗口编号：" + that.mySelectWnd;
             console.log(szInfo);
           },
           cbInitPluginComplete: function () {
@@ -316,8 +316,8 @@
 
           WebVideoCtrl.I_PTZControl(iPTZIndex, false, {
             iPTZSpeed: 4,
-            mysuccess: function (xmlDoc) {
-              console.log("I_PTZControl", xmlDoc);
+            mysuccess: function (xmlStr) {
+              console.log("I_PTZControl", xmlStr);
               if (iPTZIndex === 9 && this.g_bPTZAuto) {
                 console.log(oWndInfo.szDeviceIdentify + " 停止云台成功！");
               } else {
@@ -335,20 +335,16 @@
       },
       mouseUpPTZControl: function () {
         var oWndInfo = WebVideoCtrl.I_GetWindowStatus(this.mySelectWnd);
-
         if (oWndInfo !== null) {
           WebVideoCtrl.I_PTZControl(1, true, {
-            success: function (xmlDoc) {
-              console.log(oWndInfo.szDeviceIdentify + " 停止云台成功！", xmlDoc)
+            mysuccess: function (xmlStr) {
+              console.log(oWndInfo.szDeviceIdentify + " 停止云台成功！", xmlStr)
             },
             error: function (status, xmlDoc) {
               console.log(oWndInfo.szDeviceIdentify + " 停止云台失败！", status, xmlDoc);
             }
           });
         }
-      },
-      myDown(aa) {
-        console.log('ddd', aa);
       }
     }
   }
