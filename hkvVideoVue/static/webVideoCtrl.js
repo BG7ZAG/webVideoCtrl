@@ -940,6 +940,7 @@ function(e) {
                 return e
             },
             this.I_PTZControl = function(e, t, n) {
+              // debugger
                 var r = {
                     iWndIndex: u,
                     iPTZIndex: e,

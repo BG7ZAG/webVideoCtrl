@@ -319,16 +319,16 @@
             mysuccess: function (xmlStr) {
               console.log("I_PTZControl", xmlStr);
               if (iPTZIndex === 9 && this.g_bPTZAuto) {
-                console.log(oWndInfo.szDeviceIdentify + " 停止云台成功！");
+                console.log(oWndInfo.szDeviceIdentify + " 停止云台成功！mouseDown");
               } else {
-                console.log(oWndInfo.szDeviceIdentify + " 开启云台成功！");
+                console.log(oWndInfo.szDeviceIdentify + " 开启云台成功！mouseDown");
               }
               if (iPTZIndex === 9) {
                 this.g_bPTZAuto = !this.g_bPTZAuto;
               }
             },
             error: function (status, xmlDoc) {
-              console.log(oWndInfo.szDeviceIdentify + " 开启云台失败！", status, xmlDoc);
+              console.log(oWndInfo.szDeviceIdentify + " 开启云台失败！mouseDown", status, xmlDoc);
             }
           });
         }
@@ -338,10 +338,10 @@
         if (oWndInfo !== null) {
           WebVideoCtrl.I_PTZControl(1, true, {
             mysuccess: function (xmlStr) {
-              console.log(oWndInfo.szDeviceIdentify + " 停止云台成功！", xmlStr)
+              console.log(oWndInfo.szDeviceIdentify + " 停止云台成功！mouseUp", xmlStr)
             },
             error: function (status, xmlDoc) {
-              console.log(oWndInfo.szDeviceIdentify + " 停止云台失败！", status, xmlDoc);
+              console.log(oWndInfo.szDeviceIdentify + " 停止云台失败！mouseUp", status, xmlDoc);
             }
           });
         }
