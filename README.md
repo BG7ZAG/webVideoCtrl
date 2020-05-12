@@ -30,8 +30,35 @@ npm run dev
 - 运行时，浏览器消耗资源比较多，有时会卡顿
 - 云台控制点击反应比较慢，有延时
 
+### 问题
+如果使用云台控制时出错，报403,在webVideoCtrl.js中搜索下面的代码
+```
+ptzControl: {
+    analog: "%s%s:%s/ISAPI/PTZCtrl/channels/%s/continuous",
+    digital: "%s%s:%s/ISAPI/ContentMgmt/PTZCtrlProxy/channels/%s/continuous"
+},
+ptzAutoControl: {
+    ipdome: "%s%s:%s/ISAPI/PTZCtrl/channels/%s/presets/%s/goto",
+    analog: "%s%s:%s/ISAPI/PTZCtrl/channels/%s/autoPan",
+    digital: "%s%s:%s/ISAPI/ContentMgmt/PTZCtrlProxy/channels/%s/autoPan"
+},
+```
+将其改成
+
+```
+ptzControl: {
+  analog: "%s%s:%s/ISAPI/PTZCtrl/channels/%s/continuous",
+  digital: "%s%s:%s/ISAPI/PTZCtrl/channels/%s/continuous"
+},
+ptzAutoControl: {
+  ipdome: "%s%s:%s/ISAPI/PTZCtrl/channels/%s/presets/%s/goto",
+  analog: "%s%s:%s/ISAPI/PTZCtrl/channels/%s/autoPan",
+  digital: "%s%s:%s/ISAPI/PTZCtrl/channels/%s/autoPan"
+},
+```
+
 ### 效果预览
-![海康摄像功能预览](https://img-blog.csdnimg.cn/20191114100625435.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1c2hpNjMxMA==,size_16,color_FFFFFF,t_70)
+![海康摄像功能预览](https://images.gitee.com/uploads/images/2020/0512/095233_51fe623e_1537655.jpeg)
 
 
 ##### 有疑问请留言，也可以添加本人微信：18795954756，加微信就点个星吧
