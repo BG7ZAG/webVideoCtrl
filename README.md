@@ -61,9 +61,4 @@ ptzAutoControl: {
 ![海康摄像功能预览](https://images.gitee.com/uploads/images/2020/0512/095233_51fe623e_1537655.jpeg)
 
 
-##### 有疑问请留言，也可以添加本人微信：yushi6310，加微信就点个星吧
-
-
-
-
 
