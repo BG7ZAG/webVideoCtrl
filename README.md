@@ -1,5 +1,7 @@
 # webVideoCtrl 海康威视web开发 vue + elementUI demo
 
+> 本仓库是forked https://gitee.com/yushi6310/webVideoCtrl ，有问题可以通过gitee中咨询原作者
+
 ### 介绍
 -  **CH_WEB3.0控件开发包V1.1.0_Win32.rar**   是海康威视官方提供的web开发包, 也适用于64位操作系统
 -  **hkvVideoVue** 是自己实现的vue代码，使用vue + elementUI实现，里面引用的海康的webVideoCtrl.js文件，我修改了部分源码
